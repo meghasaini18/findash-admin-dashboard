@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>FinDash Admin Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="style.css" rel="stylesheet">
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+<div class="dashboard-container">
+<div class="overlay"></div>
+<aside class="sidebar" id="mobile-sidebar">
+<div class="logo">
+<img src="assets/images/logo.png" alt="FinDash logo">
+<h1>FinDash</h1>
+</div>
+<nav class="sidebar-nav">
+<ul class="navigation">
+<li><a href="#" class="active">Dashboard</a></li>
+<li><a href="#analytics">Analytics</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#tasks">Tasks</a></li>
+<li><a href="#messages">Messages</a></li>
+</ul>
+</nav>
+<button class="logout-btn"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>Logout</button>
+</aside>
+<div class="main-content">
+<header class="navbar">
+<button class="hamburger-icon" aria-label="Open menu" aria-expanded="false" type="button" aria-controls="mobile-sidebar">
+<i class="fa-solid fa-bars menu-open" aria-hidden="true"></i>
+<i class="fa-solid fa-xmark menu-close" aria-hidden="true"></i>
+</button>
+<div class="search">
+<input type="search" placeholder="Search..." aria-label="Search Dashboard" class="dashboard-search">
+</div>
+<div class="nav-icon">
+<button class="notification-btn" type="button" aria-label="Notifications"><i class="fa-solid fa-bell" aria-hidden="true"></i></button>
+<div class="profile">
+<button class="profile-btn" aria-expanded="false" aria-haspopup="true" aria-controls="menu" type="button"><i class="fa-solid fa-circle-user" aria-hidden="true"></i></button>
+<div class="dropdown close" id="menu" role="menu">
+<ul>
+    <li><a href="/my-profile" role="menuitem">My Profile</a></li>
+    <li><a href="/setting" role="menuitem">Setting</a></li>
+    <li><a href="/my-projects" role="menuitem">My Projects</a></li>
+    <li><a href="/dark-mode" role="menuitem">Dark mode</a></li>
+    <li><a href="/logout" role="menuitem">Logout</a></li>
+</ul>
+</div>
+</div>
+</div>
+</header>
+<main class="dashboard-content">
+<section class="summary-cards">
+<article class="card" data-card="active-users">
+    <i class="fa-regular fa-user" aria-hidden="true"></i>
+    <h3>Active Users</h3>
+    <p class="number">643</p>
+    <p class="growth">
+    <span class="growth-value">55%</span>
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </p>       
+</article>
+<article class="card" data-card="pending-tasks">
+    <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
+    <h3>Pending Tasks</h3>
+    <p class="number">3475</p>
+    <p class="growth">
+        <span class="growth-value">65%</span> 
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+     </p>
+</article>
+<article class="card" data-card="total-projects">
+    <i class="fa-regular fa-folder" aria-hidden="true"></i>
+    <h3>Total Projects</h3>
+    <p class="number">345</p>
+    <p class="growth">
+        <span class="growth-value">5%</span>
+        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+    </p>
+</article>
+<article class="card" data-card="revenue">
+    <i class="fa-solid fa-dollar-sign" aria-hidden="true"></i>
+    <h3>Revenue</h3>
+    <p class="number">464</p>
+    <p class="growth">
+        <span class="growth-value">23%</span>
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </p>
+</article>
+</section>
+<section class="activity-section">
+<h2>Recent Activity</h2>
+<div class="table-wrap">
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Aisha</td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Today</td>
+            <td><button class="action-btn view-btn" type="button" data-action="view">View</button></td>
+        </tr>
+        <tr>
+            <td>Rahul</td>
+            <td><span class="status pending">Pending</span></td>
+            <td>Yesterday</td>
+            <td><button class="action-btn edit-btn" type="button" data-action="edit">Edit</button></td>
+        </tr>
+        <tr>
+            <td>John</td>
+            <td><span class="status progress">In Progress</span></td>
+            <td>Jun 12</td>
+            <td><button class="action-btn delete-btn" type="button" data-action="delete">Delete</button></td>
+        </tr>
+        <tr>
+            <td>Emily</td>
+            <td><span class="status completed">Completed</span></td>
+            <td>Jun 13</td>
+            <td><button class="action-btn view-btn" type="button" data-action="view">View</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</section>
+</main>
+<footer></footer>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
