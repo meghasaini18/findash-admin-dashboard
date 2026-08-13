@@ -134,7 +134,7 @@ The project is therefore intended primarily as a frontend development and JavaSc
 🧪 How to Run Locally
 
 1. Clone the repository
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/meghasaini18/findash-admin-dashboard.git
 
 2. Open the project
 
@@ -180,37 +180,6 @@ This project is part of my hands-on frontend development journey, with a focus o
 
 This project is available for learning and personal portfolio purposes.
 
-
-### Before you push
-
-There are **3 things I'd change** in the README before committing:
-
-1. Replace:
-
-```md
-[View Live Demo](#)
-
-with your actual deployed URL.
-
-Add a real screenshot:
-assets/images/dashboard-preview.png
-
-If you don't have one, remove the preview section for now rather than committing a broken image.
-
-Change:
-YOUR_REPOSITORY_URL
-
-to your actual GitHub repository URL after creating the repository.
-
-Your Day 13 status
-
-I'd mark it:
-
-Day 13 — JavaScript Interaction + Dynamic Dashboard Data ✅
-
-You've now crossed an important point: the dashboard isn't merely styled HTML anymore. You are using JavaScript to take structured data and update the UI.
-
-Next step should be Step 3: make the activity table data-driven as well—instead of keeping the users/rows hardcoded in HTML. That's where the dashboard starts behaving much more like a real application.
 
 👤 Author
 
