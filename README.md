@@ -180,15 +180,3 @@ This project is part of my hands-on frontend development journey, with a focus o
 
 This project is available for learning and personal portfolio purposes.
 
-
-👤 Author
-
-Megha Saini
-
-Frontend Developer in progress.
-
-This project is part of my hands-on frontend development journey, with a focus on building projects and learning JavaScript through practical implementation.
-
-📄 License
-
-This project is available for learning and personal portfolio purposes.
