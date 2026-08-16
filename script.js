@@ -5,7 +5,6 @@ const sidebar = document.querySelector(".sidebar");
 const navLinks = document.querySelectorAll(".navigation a");
 const overlay = document.querySelector(".overlay");
 const searchInput = document.querySelector(".dashboard-search");
-const tableRows = document.querySelectorAll("tbody tr");
 const tableBody = document.querySelector("tbody");
 
 
@@ -101,19 +100,9 @@ closeMobileMenu();
 overlay.addEventListener("click", closeMobileMenu);
 
 //search
-const noResultRow = document.createElement("tr");
-const tableCol = document.createElement("td");
-
-tableCol.textContent = "No results found";
-tableCol.colSpan = 4;
-
-noResultRow.appendChild(tableCol);
-noResultRow.classList.add("no-results-row", "hidden");
-tableBody.appendChild(noResultRow); 
-
-
 searchInput.addEventListener("input", () => {
     const searchTerm = searchInput.value.trim().toLowerCase();
+    const tableRows = tableBody.querySelectorAll(".activity-row");
     let matchCount = 0;
     tableRows.forEach(row => {
         const rowText = row.textContent.toLowerCase();
@@ -123,7 +112,32 @@ searchInput.addEventListener("input", () => {
             matchCount++;
         }
 });
-noResultRow.classList.toggle("hidden", matchCount !==0);
+// Find an existing "no results" row, if there is one
+    const existingNoResultRow = tableBody.querySelector(".no-results-row");
+
+    if (matchCount === 0) {
+
+        // Only create it if it doesn't already exist
+        if (!existingNoResultRow) {
+            const noResultRow = document.createElement("tr");
+            const tableCol = document.createElement("td");
+
+            tableCol.textContent = "No results found";
+            tableCol.colSpan = 4;
+
+            noResultRow.classList.add("no-results-row");
+            noResultRow.appendChild(tableCol);
+
+            tableBody.appendChild(noResultRow);
+        }
+
+    } else {
+
+        // Remove it when results are found
+        if (existingNoResultRow) {
+            existingNoResultRow.remove();
+        }
+    }
 });
 
 
@@ -151,6 +165,7 @@ const dashboardData = {
     }
 };
 
+//card data
 const cards = document.querySelectorAll(".card");
 cards.forEach(card => {
     const cardType = card.dataset.card;
@@ -186,3 +201,84 @@ cards.forEach(card => {
         cardData.direction === "up" ? "fa-arrow-up" : "fa-arrow-down"
     );
 })
+
+//table data 
+const activityData = [
+    {
+        name: "Aisha",
+        status: "Completed",
+        statusClass: "completed",
+        date: "Today",
+        action: "view"
+    },
+    {
+        name: "Rahul",
+        status: "Pending",
+        statusClass: "pending",
+        date: "Yesterday",
+        action: "edit"
+    },
+    {
+        name: "John",
+        status: "In Progress",
+        statusClass: "progress",
+        date: "Jun 12",
+        action: "delete"
+    },
+    {
+        name: "Emily",
+        status: "Completed",
+        statusClass: "completed",
+        date: "Jun 13",
+        action: "view"
+    }
+];
+
+function renderActivityTable(data) {
+    tableBody.innerHTML = "";
+    const actionLabels = {
+                    view: "View",
+                    edit: "Edit",
+                    delete: "Delete"
+                };
+
+    data.forEach(activity => {
+ 
+        const row = document.createElement("tr");
+        row.classList.add("activity-row");
+        const nameCell = document.createElement("td");
+        const statusCell = document.createElement("td");
+
+        //create span for status
+        const statusSpan = document.createElement("span");
+        statusSpan.classList.add("status",
+                                activity.statusClass);
+        statusSpan.textContent = activity.status;
+
+        const dateCell = document.createElement("td");
+        const actionCell = document.createElement("td");
+
+         //button
+        const button = document.createElement("button");
+        button.classList.add("action-btn",
+                            activity.action.toLowerCase() + "-btn");
+        button.setAttribute("type", "button");
+        button.setAttribute("data-action", activity.action);
+        button.textContent = actionLabels[activity.action];
+        // button.textContent = activity.action;
+
+        nameCell.textContent = activity.name;
+        statusCell.appendChild(statusSpan);
+        dateCell.textContent = activity.date;
+        actionCell.appendChild(button);
+
+        row.appendChild(nameCell);
+        row.appendChild(statusCell);
+        row.appendChild(dateCell);
+        row.appendChild(actionCell);
+
+        tableBody.append(row);
+});
+}
+
+renderActivityTable(activityData);
