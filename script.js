@@ -99,48 +99,6 @@ closeMobileMenu();
 //overlay click
 overlay.addEventListener("click", closeMobileMenu);
 
-//search
-searchInput.addEventListener("input", () => {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const tableRows = tableBody.querySelectorAll(".activity-row");
-    let matchCount = 0;
-    tableRows.forEach(row => {
-        const rowText = row.textContent.toLowerCase();
-        const isMatch = rowText.includes(searchTerm);
-        row.classList.toggle("hidden", !isMatch);
-        if(isMatch){
-            matchCount++;
-        }
-});
-// Find an existing "no results" row, if there is one
-    const existingNoResultRow = tableBody.querySelector(".no-results-row");
-
-    if (matchCount === 0) {
-
-        // Only create it if it doesn't already exist
-        if (!existingNoResultRow) {
-            const noResultRow = document.createElement("tr");
-            const tableCol = document.createElement("td");
-
-            tableCol.textContent = "No results found";
-            tableCol.colSpan = 4;
-
-            noResultRow.classList.add("no-results-row");
-            noResultRow.appendChild(tableCol);
-
-            tableBody.appendChild(noResultRow);
-        }
-
-    } else {
-
-        // Remove it when results are found
-        if (existingNoResultRow) {
-            existingNoResultRow.remove();
-        }
-    }
-});
-
-
 //dashboard data
 const dashboardData = {
     activeUsers: {
@@ -236,6 +194,23 @@ const activityData = [
 
 function renderActivityTable(data) {
     tableBody.innerHTML = "";
+
+    // Only create it if it doesn't already exist
+        if (data.length === 0) {
+            const noResultRow = document.createElement("tr");
+            noResultRow.classList.add("no-results-row");
+
+            const tableCol = document.createElement("td");
+            tableCol.textContent = "No results found";
+            tableCol.colSpan = 4;
+
+            
+            noResultRow.appendChild(tableCol);
+            tableBody.appendChild(noResultRow);
+
+            return;
+        }
+
     const actionLabels = {
                     view: "View",
                     edit: "Edit",
@@ -248,6 +223,8 @@ function renderActivityTable(data) {
         row.classList.add("activity-row");
         const nameCell = document.createElement("td");
         const statusCell = document.createElement("td");
+        const dateCell = document.createElement("td");
+        const actionCell = document.createElement("td");
 
         //create span for status
         const statusSpan = document.createElement("span");
@@ -255,21 +232,21 @@ function renderActivityTable(data) {
                                 activity.statusClass);
         statusSpan.textContent = activity.status;
 
-        const dateCell = document.createElement("td");
-        const actionCell = document.createElement("td");
-
          //button
         const button = document.createElement("button");
         button.classList.add("action-btn",
                             activity.action.toLowerCase() + "-btn");
+
         button.setAttribute("type", "button");
         button.setAttribute("data-action", activity.action);
         button.textContent = actionLabels[activity.action];
-        // button.textContent = activity.action;
 
         nameCell.textContent = activity.name;
+
         statusCell.appendChild(statusSpan);
+
         dateCell.textContent = activity.date;
+
         actionCell.appendChild(button);
 
         row.appendChild(nameCell);
@@ -280,5 +257,23 @@ function renderActivityTable(data) {
         tableBody.append(row);
 });
 }
+
+//search
+function filterActivityTable() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    const filteredData = activityData.filter(activity => {
+        return (
+            activity.name.toLowerCase().includes(searchTerm) ||
+            activity.status.toLowerCase().includes(searchTerm) ||
+            activity.date.toLowerCase().includes(searchTerm) ||
+            activity.action.toLowerCase().includes(searchTerm)
+        );
+    });
+
+    renderActivityTable(filteredData);
+}
+
+searchInput.addEventListener("input", filterActivityTable);
 
 renderActivityTable(activityData);
