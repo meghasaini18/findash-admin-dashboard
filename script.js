@@ -71,17 +71,17 @@ isOpen ? "Close menu" : "Open menu"
 })
 
 function closeMobileMenu() {
-    sidebar.classList.remove("mobile-open");
-    hamburger.classList.remove("mobile-open");
-    hamburger.setAttribute("aria-expanded", "false");
-    hamburger.setAttribute("aria-label", "Open menu");
-    overlay.classList.remove("active");
+sidebar.classList.remove("mobile-open");
+hamburger.classList.remove("mobile-open");
+hamburger.setAttribute("aria-expanded", "false");
+hamburger.setAttribute("aria-label", "Open menu");
+overlay.classList.remove("active");
 }
 
 //resize
 window.addEventListener("resize", () => {
 if (window.innerWidth > 991) {
-    closeMobileMenu();
+closeMobileMenu();
 }
 });
 
@@ -101,179 +101,288 @@ overlay.addEventListener("click", closeMobileMenu);
 
 //dashboard data
 const dashboardData = {
-    activeUsers: {
-        value: 643,
-        growth: 55,
-        direction: "up"
-    },
-    pendingTasks:{
-        value: 3475,
-        growth: 65,
-        direction: "up"
-    },
-    totalProjects:{
-        value: 345,
-        growth: 5,
-        direction: "down"
-    },
-    revenue:{
-        value: 464,
-        growth: 23,
-        direction: "up"
-    }
+activeUsers: {
+    value: 643,
+    growth: 55,
+    direction: "up"
+},
+pendingTasks:{
+    value: 3475,
+    growth: 65,
+    direction: "up"
+},
+totalProjects:{
+    value: 345,
+    growth: 5,
+    direction: "down"
+},
+revenue:{
+    value: 464,
+    growth: 23,
+    direction: "up"
+}
 };
 
 //card data
 const cards = document.querySelectorAll(".card");
 cards.forEach(card => {
     const cardType = card.dataset.card;
-    const dataKey = cardType
-    .split("-")
-    .map((value, index) =>{ 
-        if(index === 0){
-            return value;
-        } 
-        return value[0].toUpperCase() + value.slice(1); 
-    })
-    .join("");
-    const cardData = dashboardData[dataKey];
-    if(!cardData){
-        console.error(`No dashboard data found for: ${dataKey}`);
-        return;
-    }
-    const numberElement = card.querySelector(".number"); 
-    const growthElement = card.querySelector(".growth-value");
-    const arrowElement = card.querySelector(".growth i");
-
-    if (!numberElement || !growthElement || !arrowElement) {
-    console.error(`Missing required elements in card: ${dataKey}`);
+const dataKey = cardType
+.split("-")
+.map((value, index) =>{ 
+    if(index === 0){
+        return value;
+    } 
+    return value[0].toUpperCase() + value.slice(1); 
+})
+.join("");
+const cardData = dashboardData[dataKey];
+if(!cardData){
+    console.error(`No dashboard data found for: ${dataKey}`);
     return;
-    }
-    //update value
-    numberElement.textContent = cardData.value;  
-    //update growth
-    growthElement.textContent = `${cardData.growth}%`;
-    //update direction
+}
+const numberElement = card.querySelector(".number"); 
+const growthElement = card.querySelector(".growth-value");
+const arrowElement = card.querySelector(".growth i");
+
+if (!numberElement || !growthElement || !arrowElement) {
+console.error(`Missing required elements in card: ${dataKey}`);
+return;
+}
+//update value
+numberElement.textContent = cardData.value;  
+//update growth
+growthElement.textContent = `${cardData.growth}%`;
+//update direction
     arrowElement.classList.remove("fa-arrow-up", "fa-arrow-down");
-    arrowElement.classList.add(
-        cardData.direction === "up" ? "fa-arrow-up" : "fa-arrow-down"
-    );
+arrowElement.classList.add(
+    cardData.direction === "up" ? "fa-arrow-up" : "fa-arrow-down"
+);
 })
 
 //table data 
 const activityData = [
-    {
-        name: "Aisha",
-        status: "Completed",
-        statusClass: "completed",
-        date: "Today",
-        action: "view"
-    },
-    {
-        name: "Rahul",
-        status: "Pending",
-        statusClass: "pending",
-        date: "Yesterday",
-        action: "edit"
-    },
-    {
-        name: "John",
-        status: "In Progress",
-        statusClass: "progress",
-        date: "Jun 12",
-        action: "delete"
-    },
-    {
-        name: "Emily",
-        status: "Completed",
-        statusClass: "completed",
-        date: "Jun 13",
-        action: "view"
-    }
+{
+    id: 1,
+    name: "Aisha",
+    status: "Completed",
+    statusClass: "completed",
+    date: "Today",
+    action: "view"
+},
+{
+    id: 2,
+    name: "Rahul",
+    status: "Pending",
+    statusClass: "pending",
+    date: "Yesterday",
+    action: "edit"
+},
+{
+    id: 3,
+    name: "John",
+    status: "In Progress",
+    statusClass: "progress",
+    date: "Jun 12",
+    action: "delete"
+},
+{
+    id: 4,
+    name: "Emily",
+    status: "Completed",
+    statusClass: "completed",
+    date: "Jun 13",
+    action: "view"
+}
 ];
 
 function renderActivityTable(data) {
-    tableBody.innerHTML = "";
+tableBody.innerHTML = "";
 
-    // Only create it if it doesn't already exist
-        if (data.length === 0) {
-            const noResultRow = document.createElement("tr");
-            noResultRow.classList.add("no-results-row");
+// Only create it if it doesn't already exist
+    if (data.length === 0) {
+        const noResultRow = document.createElement("tr");
+        noResultRow.classList.add("no-results-row");
 
-            const tableCol = document.createElement("td");
-            tableCol.textContent = "No results found";
-            tableCol.colSpan = 4;
+        const tableCol = document.createElement("td");
+        tableCol.textContent = "No results found";
+        tableCol.colSpan = 4;
 
-            
-            noResultRow.appendChild(tableCol);
-            tableBody.appendChild(noResultRow);
+        
+        noResultRow.appendChild(tableCol);
+        tableBody.appendChild(noResultRow);
 
-            return;
-        }
+        return;
+    }
 
-    const actionLabels = {
-                    view: "View",
-                    edit: "Edit",
-                    delete: "Delete"
-                };
+const actionLabels = {
+                view: "View",
+                edit: "Edit",
+                delete: "Delete"
+            };
 
-    data.forEach(activity => {
- 
-        const row = document.createElement("tr");
-        row.classList.add("activity-row");
-        const nameCell = document.createElement("td");
-        const statusCell = document.createElement("td");
-        const dateCell = document.createElement("td");
-        const actionCell = document.createElement("td");
+data.forEach(activity => {
 
-        //create span for status
-        const statusSpan = document.createElement("span");
-        statusSpan.classList.add("status",
-                                activity.statusClass);
-        statusSpan.textContent = activity.status;
+    const row = document.createElement("tr");
+    row.classList.add("activity-row");
+    row.dataset.activityId = activity.id;
+    const nameCell = document.createElement("td");
+    const statusCell = document.createElement("td");
+    const dateCell = document.createElement("td");
+    const actionCell = document.createElement("td");
 
-         //button
-        const button = document.createElement("button");
-        button.classList.add("action-btn",
-                            activity.action.toLowerCase() + "-btn");
+    //create span for status
+    const statusSpan = document.createElement("span");
+    statusSpan.classList.add("status",
+                            activity.statusClass);
+    statusSpan.textContent = activity.status;
 
-        button.setAttribute("type", "button");
-        button.setAttribute("data-action", activity.action);
-        button.textContent = actionLabels[activity.action];
+        //button
+    const button = document.createElement("button");
+    button.classList.add("action-btn",
+                        activity.action.toLowerCase() + "-btn");
 
-        nameCell.textContent = activity.name;
+    button.setAttribute("type", "button");
+    button.setAttribute("data-action", activity.action);
+    button.textContent = actionLabels[activity.action];
 
-        statusCell.appendChild(statusSpan);
+    nameCell.textContent = activity.name;
 
-        dateCell.textContent = activity.date;
+    statusCell.appendChild(statusSpan);
 
-        actionCell.appendChild(button);
+    dateCell.textContent = activity.date;
 
-        row.appendChild(nameCell);
-        row.appendChild(statusCell);
-        row.appendChild(dateCell);
-        row.appendChild(actionCell);
+    actionCell.appendChild(button);
 
-        tableBody.append(row);
+    row.appendChild(nameCell);
+    row.appendChild(statusCell);
+    row.appendChild(dateCell);
+    row.appendChild(actionCell);
+
+    tableBody.append(row);
 });
 }
 
 //search
 function filterActivityTable() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
+const searchTerm = searchInput.value.trim().toLowerCase();
 
-    const filteredData = activityData.filter(activity => {
-        return (
-            activity.name.toLowerCase().includes(searchTerm) ||
-            activity.status.toLowerCase().includes(searchTerm) ||
-            activity.date.toLowerCase().includes(searchTerm) ||
-            activity.action.toLowerCase().includes(searchTerm)
-        );
-    });
+const filteredData = activityData.filter(activity => {
+    return (
+        activity.name.toLowerCase().includes(searchTerm) ||
+        activity.status.toLowerCase().includes(searchTerm) ||
+        activity.date.toLowerCase().includes(searchTerm) ||
+        activity.action.toLowerCase().includes(searchTerm)
+    );
+});
 
-    renderActivityTable(filteredData);
+renderActivityTable(filteredData);
+}
+
+function refreshActivityTable() {
+filterActivityTable();
 }
 
 searchInput.addEventListener("input", filterActivityTable);
 
 renderActivityTable(activityData);
+
+function viewActivity(activity) {
+alert(
+    `Name: ${activity.name}\n` +
+    `Status: ${activity.status}\n` +
+    `Date: ${activity.date}`
+);
+}
+
+
+function editActivity(activity) {
+const newName = prompt(
+    "Enter new name:",
+    activity.name
+);
+
+// User clicked Cancel
+if (newName === null) {
+    return;
+}
+
+const trimmedName = newName.trim();
+
+// Don't allow empty name
+if (trimmedName === "") {
+    alert("Name cannot be empty.");
+    return;
+}
+
+// Actually modify the activity
+activity.name = trimmedName;
+
+// Refresh table while keeping search
+refreshActivityTable();
+}
+
+
+function deleteActivity(activity) {
+const confirmed = confirm(
+    `Are you sure you want to delete ${activity.name}?`
+);
+
+// User clicked Cancel
+if (!confirmed) {
+    return;
+}
+
+const index = activityData.findIndex(
+    item => item.id === activity.id
+);
+
+if (index === -1) {
+    return;
+}
+
+// Actually remove the activity
+activityData.splice(index, 1);
+
+// Refresh table while keeping search
+refreshActivityTable();
+}
+
+tableBody.addEventListener("click", (e) => {
+const button = e.target.closest(".action-btn");
+if(!button){
+    return;
+}
+const row = button.closest(".activity-row");
+if (!row) {
+    return;
+}
+
+const activityId = Number(row.dataset.activityId);
+console.log("Activity ID:", activityId);
+
+const activity = activityData.find(
+    activity => activity.id === activityId
+);
+if(!activity){
+    return;
+}
+const action = button.dataset.action;
+switch(action){
+    
+    case "view":
+        viewActivity(activity);
+        break;
+
+        case "edit":
+        editActivity(activity);
+        break;
+
+        case "delete":
+        deleteActivity(activity);
+        break;
+
+        default: 
+        console.warn("Unknown action: ", action);
+}
+});
