@@ -102,24 +102,24 @@ overlay.addEventListener("click", closeMobileMenu);
 //dashboard data
 const dashboardData = {
 activeUsers: {
-    value: 643,
-    growth: 55,
-    direction: "up"
+value: 643,
+growth: 55,
+direction: "up"
 },
 pendingTasks:{
-    value: 3475,
-    growth: 65,
-    direction: "up"
+value: 3475,
+growth: 65,
+direction: "up"
 },
 totalProjects:{
-    value: 345,
-    growth: 5,
-    direction: "down"
+value: 345,
+growth: 5,
+direction: "down"
 },
 revenue:{
-    value: 464,
-    growth: 23,
-    direction: "up"
+value: 464,
+growth: 23,
+direction: "up"
 }
 };
 
@@ -130,16 +130,16 @@ cards.forEach(card => {
 const dataKey = cardType
 .split("-")
 .map((value, index) =>{ 
-    if(index === 0){
-        return value;
-    } 
-    return value[0].toUpperCase() + value.slice(1); 
+if(index === 0){
+    return value;
+} 
+return value[0].toUpperCase() + value.slice(1); 
 })
 .join("");
 const cardData = dashboardData[dataKey];
 if(!cardData){
-    console.error(`No dashboard data found for: ${dataKey}`);
-    return;
+console.error(`No dashboard data found for: ${dataKey}`);
+return;
 }
 const numberElement = card.querySelector(".number"); 
 const growthElement = card.querySelector(".growth-value");
@@ -156,110 +156,144 @@ growthElement.textContent = `${cardData.growth}%`;
 //update direction
     arrowElement.classList.remove("fa-arrow-up", "fa-arrow-down");
 arrowElement.classList.add(
-    cardData.direction === "up" ? "fa-arrow-up" : "fa-arrow-down"
+cardData.direction === "up" ? "fa-arrow-up" : "fa-arrow-down"
 );
 })
 
 //table data 
 const activityData = [
 {
-    id: 1,
-    name: "Aisha",
-    status: "Completed",
-    statusClass: "completed",
-    date: "Today",
-    action: "view"
+id: 1,
+name: "Aisha",
+status: "Completed",
+statusClass: "completed",
+date: "Today",
+action: "view"
 },
 {
-    id: 2,
-    name: "Rahul",
-    status: "Pending",
-    statusClass: "pending",
-    date: "Yesterday",
-    action: "edit"
+id: 2,
+name: "Rahul",
+status: "Pending",
+statusClass: "pending",
+date: "Yesterday",
+action: "edit"
 },
 {
-    id: 3,
-    name: "John",
-    status: "In Progress",
-    statusClass: "progress",
-    date: "Jun 12",
-    action: "delete"
+id: 3,
+name: "John",
+status: "In Progress",
+statusClass: "progress",
+date: "Jun 12",
+action: "delete"
 },
 {
-    id: 4,
-    name: "Emily",
-    status: "Completed",
-    statusClass: "completed",
-    date: "Jun 13",
-    action: "view"
+id: 4,
+name: "Emily",
+status: "Completed",
+statusClass: "completed",
+date: "Jun 13",
+action: "view"
 }
 ];
+
+//valid status
+const validStatuses = [
+"Completed",
+"Pending",
+"In Progress"
+];
+
+// Status Class
+
+function getStatusClass(status) {
+
+switch (status) {
+case "Completed":
+return "completed";
+
+case "Pending":
+return "pending";
+
+case "In Progress":
+return "progress";
+
+default:
+return "";
+}
+}
 
 function renderActivityTable(data) {
 tableBody.innerHTML = "";
 
-// Only create it if it doesn't already exist
-    if (data.length === 0) {
-        const noResultRow = document.createElement("tr");
-        noResultRow.classList.add("no-results-row");
+// Show empty state when there is no data
+if (data.length === 0) {
+    const noResultRow = document.createElement("tr");
+    noResultRow.classList.add("no-results-row");
 
-        const tableCol = document.createElement("td");
-        tableCol.textContent = "No results found";
-        tableCol.colSpan = 4;
+    const tableCol = document.createElement("td");
+    tableCol.textContent = "No results found";
+    tableCol.colSpan = 4;
+    
+    noResultRow.appendChild(tableCol);
+    tableBody.appendChild(noResultRow);
 
-        
-        noResultRow.appendChild(tableCol);
-        tableBody.appendChild(noResultRow);
-
-        return;
-    }
+    return;
+}
 
 const actionLabels = {
-                view: "View",
-                edit: "Edit",
-                delete: "Delete"
-            };
+            view: "View",
+            edit: "Edit",
+            delete: "Delete"
+        };
 
 data.forEach(activity => {
 
-    const row = document.createElement("tr");
-    row.classList.add("activity-row");
-    row.dataset.activityId = activity.id;
-    const nameCell = document.createElement("td");
-    const statusCell = document.createElement("td");
-    const dateCell = document.createElement("td");
-    const actionCell = document.createElement("td");
+const row = document.createElement("tr");
+row.classList.add("activity-row");
+row.dataset.activityId = activity.id;
+const nameCell = document.createElement("td");
+const statusCell = document.createElement("td");
+const dateCell = document.createElement("td");
+const actionCell = document.createElement("td");
 
-    //create span for status
-    const statusSpan = document.createElement("span");
-    statusSpan.classList.add("status",
-                            activity.statusClass);
-    statusSpan.textContent = activity.status;
 
-        //button
-    const button = document.createElement("button");
-    button.classList.add("action-btn",
-                        activity.action.toLowerCase() + "-btn");
+//create span for status
+const statusSpan = document.createElement("span");
+statusSpan.classList.add("status", activity.statusClass);
+statusSpan.textContent = activity.status;
 
-    button.setAttribute("type", "button");
-    button.setAttribute("data-action", activity.action);
-    button.textContent = actionLabels[activity.action];
+//button
+const button = document.createElement("button");
+button.classList.add("action-btn",
+                    activity.action.toLowerCase() + "-btn");
 
-    nameCell.textContent = activity.name;
+button.setAttribute("type", "button");
+button.setAttribute("data-action", activity.action);
+button.textContent = actionLabels[activity.action];
 
-    statusCell.appendChild(statusSpan);
+nameCell.textContent = activity.name;
 
-    dateCell.textContent = activity.date;
+statusCell.appendChild(statusSpan);
 
-    actionCell.appendChild(button);
+dateCell.textContent = activity.date;
 
-    row.appendChild(nameCell);
-    row.appendChild(statusCell);
-    row.appendChild(dateCell);
-    row.appendChild(actionCell);
+actionCell.appendChild(button);
 
-    tableBody.append(row);
+const statusButton = document.createElement("button");
+statusButton.classList.add("action-btn", "status-btn");
+statusButton.setAttribute("type", "button");
+statusButton.setAttribute("data-action", "status");
+statusButton.textContent = "Change Status";
+
+// Add both buttons
+actionCell.appendChild(statusButton);
+
+row.appendChild(nameCell);
+row.appendChild(statusCell);
+row.appendChild(dateCell);
+row.appendChild(actionCell);
+
+tableBody.append(row);
 });
 }
 
@@ -268,12 +302,12 @@ function filterActivityTable() {
 const searchTerm = searchInput.value.trim().toLowerCase();
 
 const filteredData = activityData.filter(activity => {
-    return (
-        activity.name.toLowerCase().includes(searchTerm) ||
-        activity.status.toLowerCase().includes(searchTerm) ||
-        activity.date.toLowerCase().includes(searchTerm) ||
-        activity.action.toLowerCase().includes(searchTerm)
-    );
+return (
+    activity.name.toLowerCase().includes(searchTerm) ||
+    activity.status.toLowerCase().includes(searchTerm) ||
+    activity.date.toLowerCase().includes(searchTerm) ||
+    activity.action.toLowerCase().includes(searchTerm)
+);
 });
 
 renderActivityTable(filteredData);
@@ -289,30 +323,30 @@ renderActivityTable(activityData);
 
 function viewActivity(activity) {
 alert(
-    `Name: ${activity.name}\n` +
-    `Status: ${activity.status}\n` +
-    `Date: ${activity.date}`
+`Name: ${activity.name}\n` +
+`Status: ${activity.status}\n` +
+`Date: ${activity.date}`
 );
 }
 
 
 function editActivity(activity) {
 const newName = prompt(
-    "Enter new name:",
-    activity.name
+"Enter new name:",
+activity.name
 );
 
 // User clicked Cancel
 if (newName === null) {
-    return;
+return;
 }
 
 const trimmedName = newName.trim();
 
 // Don't allow empty name
 if (trimmedName === "") {
-    alert("Name cannot be empty.");
-    return;
+alert("Name cannot be empty.");
+return;
 }
 
 // Actually modify the activity
@@ -325,20 +359,20 @@ refreshActivityTable();
 
 function deleteActivity(activity) {
 const confirmed = confirm(
-    `Are you sure you want to delete ${activity.name}?`
+`Are you sure you want to delete ${activity.name}?`
 );
 
 // User clicked Cancel
 if (!confirmed) {
-    return;
+return;
 }
 
 const index = activityData.findIndex(
-    item => item.id === activity.id
+item => item.id === activity.id
 );
 
 if (index === -1) {
-    return;
+return;
 }
 
 // Actually remove the activity
@@ -348,41 +382,73 @@ activityData.splice(index, 1);
 refreshActivityTable();
 }
 
+//change status
+function changeActivityStatus(activity) {
+
+const newStatus =prompt("Enter status:\nCompleted / Pending / In Progress", activity.status);
+
+// Cancel
+if (newStatus === null) {
+return;
+}
+
+const trimmedStatus =newStatus.trim();
+
+// Validate status
+if (!validStatuses.includes(trimmedStatus)) {
+alert("Invalid status. Please choose: Completed, Pending, or In Progress.");
+return;
+}
+
+// Modify activity
+activity.status =trimmedStatus;
+
+// Update visual class
+activity.statusClass =getStatusClass(trimmedStatus);
+
+// Refresh table
+refreshActivityTable();
+}
+
 tableBody.addEventListener("click", (e) => {
 const button = e.target.closest(".action-btn");
 if(!button){
-    return;
+return;
 }
 const row = button.closest(".activity-row");
 if (!row) {
-    return;
+return;
 }
 
 const activityId = Number(row.dataset.activityId);
 console.log("Activity ID:", activityId);
 
 const activity = activityData.find(
-    activity => activity.id === activityId
+activity => activity.id === activityId
 );
 if(!activity){
-    return;
+return;
 }
 const action = button.dataset.action;
 switch(action){
-    
-    case "view":
-        viewActivity(activity);
-        break;
 
-        case "edit":
-        editActivity(activity);
-        break;
+case "view":
+    viewActivity(activity);
+    break;
 
-        case "delete":
-        deleteActivity(activity);
-        break;
+    case "edit":
+    editActivity(activity);
+    break;
 
-        default: 
-        console.warn("Unknown action: ", action);
+    case "delete":
+    deleteActivity(activity);
+    break;
+
+    case "status":
+    changeActivityStatus(activity);
+    break;
+
+    default: 
+    console.warn("Unknown action: ", action);
 }
 });
