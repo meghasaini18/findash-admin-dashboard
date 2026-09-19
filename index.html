@@ -45,7 +45,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <ul>
     <li><a href="/my-profile" role="menuitem">My Profile</a></li>
     <li><a href="/setting" role="menuitem">Setting</a></li>
-    <li><a href="/my-projects" role="menuitem">My Projects</a></li>
+    <li><a href="/projects" role="menuitem">My Projects</a></li>
     <li><a href="/dark-mode" role="menuitem">Dark mode</a></li>
     <li><a href="/logout" role="menuitem">Logout</a></li>
 </ul>
@@ -54,7 +54,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 </header>
 <main class="dashboard-content">
-<section class="summary-cards">
+<section class="summary-cards" id="analytics">
 <article class="card" data-card="active-users">
     <i class="fa-regular fa-user" aria-hidden="true"></i>
     <h3>Active Users</h3>
@@ -64,7 +64,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
     </p>       
 </article>
-<article class="card" data-card="pending-tasks">
+<article class="card" data-card="pending-tasks" id="projects">
     <i class="fa-solid fa-hourglass" aria-hidden="true"></i>
     <h3>Pending Tasks</h3>
     <p class="number">3475</p>
@@ -92,7 +92,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </p>
 </article>
 </section>
-<section class="activity-section">
+<section class="activity-section" id="tasks">
 <h2>Recent Activity</h2>
 <div class="table-wrap">
 <table>
@@ -109,7 +109,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </div>
 </section>
 </main>
-<footer></footer>
 </div>
 </div>
 <script src="script.js"></script>
